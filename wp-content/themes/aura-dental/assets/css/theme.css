@@ -497,6 +497,7 @@ a { text-decoration: none; transition: color 0.25s var(--aura-ease); }
 .aura-page .wp-block-post-title { margin: 0 0 32px; }
 
 /* ---------- reveal animations (GSAP sets inline, this is the no-js/reduced-motion fallback) ---------- */
+html, body { overflow-x: clip; } /* reveal offsets (translateX) must not widen the page on phones */
 [data-aura-reveal] { will-change: transform, opacity; }
 @media (prefers-reduced-motion: reduce) { [data-aura-reveal] { opacity: 1 !important; transform: none !important; } html { scroll-behavior: auto; } }
 
