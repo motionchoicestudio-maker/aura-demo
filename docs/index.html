@@ -21,7 +21,7 @@ a{color:var(--blue)}table{border-collapse:collapse;width:100%;background:#fff;bo
 <h2 id="install">1. Installation</h2>
 <ol>
 <li>In WordPress go to <strong>Appearance → Themes → Add New → Upload Theme</strong>, choose <code>aura-dental.zip</code>, install and activate.</li>
-<li>Go to <strong>Plugins → Add New → Upload Plugin</strong>, choose <code>aura-dental-core.zip</code> (in the package's <code>plugins/</code> folder), install and activate. The plugin adds Services, Doctors, Specialties, the booking form and the demo importer. The theme works without it, but the service and doctor sections will be empty.</li>
+<li>After activating the theme WordPress shows a notice: <strong>Begin installing plugin</strong> (also under Appearance → Install Plugins). Click it to install and activate <strong>AURA Dental Core</strong>, which is bundled inside the theme. Alternatively upload <code>aura-dental-core.zip</code> from the package's <code>plugins/</code> folder via Plugins → Add New → Upload Plugin. The plugin adds Services, Doctors, Specialties, the booking form and the demo importer. The theme works without it, but the service and doctor sections will be empty.</li>
 <li><strong>Appearance → Import AURA demo → Import demo content.</strong> This creates the pages (Home, Clinic, Contact, Your First Visit, Journal), six services, twelve doctors, four articles and sets the front page. It is safe to run twice.</li>
 <li><strong>Settings → Permalinks → Save Changes</strong> once, so <code>/services/</code> and <code>/doctors/</code> URLs work.</li>
 </ol>
@@ -59,6 +59,7 @@ a{color:var(--blue)}table{border-collapse:collapse;width:100%;background:#fff;bo
 <ul>
 <li>All colors, font sizes and spacing are in <strong>Appearance → Editor → Styles</strong> (theme.json). Change "Blue" and "Blue Glow" to re-brand the whole site.</li>
 <li>Font: Satoshi, loaded from Fontshare. Swap it with <code>add_filter( 'aura_dental_font_url', fn() => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap' );</code> and change the font family in Styles → Typography.</li>
+<li><strong>Third-party servers.</strong> The Satoshi font is requested from Fontshare (api.fontshare.com, Indian Type Foundry), and the Contact page embeds Google Maps. Both services can see the IP address of your site's visitors. To avoid that, return an empty string from the <code>aura_dental_font_url</code> filter (the system font stack is used) and replace the map block with a static image.</li>
 <li>Logo: Appearance → Editor → Site logo (34×34 works best). Without a logo the theme shows its own mark.</li>
 <li>Menus: Appearance → Editor → Navigation. The header menu collapses into an overlay below 600px.</li>
 </ul>
