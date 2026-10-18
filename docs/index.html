@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AURA Dental theme documentation</title>
+<style>
+:root{--ink:#0A1128;--blue:#1B3BD6;--bg:#F5F7FB;--line:rgba(10,17,40,.08)}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:40px;letter-spacing:-.02em;margin:0 0 8px}h2{font-size:24px;margin:48px 0 12px;padding-top:24px;border-top:1px solid var(--line)}h3{margin:24px 0 6px}
+code,pre{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:8px}code{padding:2px 6px}pre{padding:14px 16px;overflow:auto}
+a{color:var(--blue)}table{border-collapse:collapse;width:100%;background:#fff;border-radius:12px;overflow:hidden}td,th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#fff;font-weight:600}
+.muted{color:rgba(10,17,40,.6)}ol li,ul li{margin:4px 0}
+</style>
+</head>
+<body><div class="wrap">
+<h1>AURA Dental</h1>
+<p class="muted">WordPress block theme for dental and aesthetic clinics · Version 1.0.0</p>
+
+<h2 id="install">1. Installation</h2>
+<ol>
+<li>In WordPress go to <strong>Appearance → Themes → Add New → Upload Theme</strong>, choose <code>aura-dental.zip</code>, install and activate.</li>
+<li>Go to <strong>Plugins → Add New → Upload Plugin</strong>, choose <code>aura-dental-core.zip</code> (in the package's <code>plugins/</code> folder), install and activate. The plugin adds Services, Doctors, Specialties, the booking form and the demo importer. The theme works without it, but the service and doctor sections will be empty.</li>
+<li><strong>Appearance → Import AURA demo → Import demo content.</strong> This creates the pages (Home, Clinic, Contact, Your First Visit, Journal), six services, twelve doctors, four articles and sets the front page. It is safe to run twice.</li>
+<li><strong>Settings → Permalinks → Save Changes</strong> once, so <code>/services/</code> and <code>/doctors/</code> URLs work.</li>
+</ol>
+
+<h2 id="pages">2. Pages and templates</h2>
+<table>
+<tr><th>Page</th><th>Template</th><th>Where the content lives</th></tr>
+<tr><td>Home</td><td>Home (<code>page-home</code>)</td><td>Patterns: Home hero, Stats row, Services list, Smile results, Statement, Doctors grid, Reviews, About reveal, FAQ, Booking. Edit the page in the Site Editor (Appearance → Editor → Templates → Home) and change texts inline, or swap a pattern.</td></tr>
+<tr><td>Services</td><td>Archive: Service</td><td>Automatic from the Services post type. Rail and cards use the service's Price label, Price note, Duration, Visits.</td></tr>
+<tr><td>Single service</td><td>Single: Service</td><td>Featured image = sticky panel background; Tagline, Price, Quote, Doctors (comma separated doctor IDs) from the service fields.</td></tr>
+<tr><td>Doctors</td><td>Archive: Doctor</td><td>Automatic. Filter chips come from the Specialties taxonomy.</td></tr>
+<tr><td>Single doctor</td><td>Single: Doctor</td><td>Consult preview: Q1/A1 … Q3/A3, Education, Years, With us since.</td></tr>
+<tr><td>Clinic</td><td>About (chapters)</td><td>Five chapters in the pattern "About in five chapters". Images in <code>assets/img/chapter-*.jpg</code>; replace via the Site Editor (Patterns) or by uploading new files with the same names.</td></tr>
+<tr><td>Contact</td><td>Contact (map)</td><td>Address and phone are in the pattern "Contact (map first + channels)". The map is a Google Maps embed of the address.</td></tr>
+<tr><td>Your First Visit</td><td>First visit (receipt)</td><td>Receipt lines in the pattern "First visit (the receipt)".</td></tr>
+<tr><td>Journal</td><td>Blog home (<code>home</code>)</td><td>Sticky post = featured card. Posts show Read time, Stats and Doctor's note fields (see below).</td></tr>
+</table>
+
+<h2 id="fields">3. Custom fields</h2>
+<p>Fields are registered as post meta and show up in the block editor. Open the post, then either edit a bound block inline (the paragraph shows the field value) or use the <strong>Custom Fields</strong> panel (Options ⋯ → Preferences → Panels → Custom Fields).</p>
+<table>
+<tr><th>Post type</th><th>Fields (meta key)</th></tr>
+<tr><td>Service</td><td><code>aura_tagline</code>, <code>aura_price</code>, <code>aura_price_label</code> (e.g. $1,900), <code>aura_price_note</code> (per implant), <code>aura_duration</code>, <code>aura_visits</code>, <code>aura_quote</code>, <code>aura_quote_author</code>, <code>aura_doctors</code> (doctor post IDs, comma separated)</td></tr>
+<tr><td>Doctor</td><td><code>aura_badge</code>, <code>aura_credentials</code>, <code>aura_years</code>, <code>aura_years_label</code>, <code>aura_quote</code>, <code>aura_education</code>, <code>aura_since</code>, <code>aura_q1</code>/<code>aura_a1</code> … <code>aura_q3</code>/<code>aura_a3</code></td></tr>
+<tr><td>Post</td><td><code>aura_read_time</code>, <code>aura_contents</code> (one heading per line, linked to headings with the same text), <code>aura_doctor_note</code>, <code>aura_author_doctor</code> (doctor post ID), <code>aura_stat1_value</code>/<code>aura_stat1_label</code> … 3</td></tr>
+</table>
+
+<h2 id="booking">4. Booking form</h2>
+<p>Shortcode <code>[aura_booking_form]</code> (attributes: <code>title</code>, <code>light="1"</code> for the white version). Requests are emailed to the site admin address. To send elsewhere add to a small plugin or your child theme:</p>
+<pre>add_filter( 'aura_dental_booking_recipient', function () { return 'reception@example.com'; } );</pre>
+<p>Prefer Contact Form 7 or WPForms? Put their shortcode in place of <code>[aura_booking_form]</code> inside the Booking pattern.</p>
+
+<h2 id="design">5. Colors, fonts, spacing</h2>
+<ul>
+<li>All colors, font sizes and spacing are in <strong>Appearance → Editor → Styles</strong> (theme.json). Change "Blue" and "Blue Glow" to re-brand the whole site.</li>
+<li>Font: Satoshi, loaded from Fontshare. Swap it with <code>add_filter( 'aura_dental_font_url', fn() => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap' );</code> and change the font family in Styles → Typography.</li>
+<li>Logo: Appearance → Editor → Site logo (34×34 works best). Without a logo the theme shows its own mark.</li>
+<li>Menus: Appearance → Editor → Navigation. The header menu collapses into an overlay below 600px.</li>
+</ul>
+
+<h2 id="animations">6. Animations</h2>
+<p>Scroll reveals, counters, the reviews slider and the services scroll-spy are powered by GSAP (bundled). They respect <code>prefers-reduced-motion</code>. To disable them completely, dequeue the script:</p>
+<pre>add_action( 'wp_enqueue_scripts', function () { wp_dequeue_script( 'aura-dental' ); }, 20 );</pre>
+
+<h2 id="child">7. Child theme</h2>
+<p>The package includes <code>aura-dental-child.zip</code>. Install it the same way as the theme (Appearance → Themes → Add New → Upload Theme) and activate it <em>instead</em> of AURA Dental. Put your CSS in its <code>style.css</code> and PHP snippets (such as the filters above) in its <code>functions.php</code>; parent theme updates will not overwrite them. The Site Editor changes you make while the child theme is active are stored for the child theme.</p>
+
+<h2 id="credits">8. Credits</h2>
+<ul>
+<li>GSAP 3.13 — gsap.com, standard "no charge" license.</li>
+<li>Satoshi — Fontshare (Indian Type Foundry), served from CDN.</li>
+<li>Demo images are for preview only and are replaced by placeholders in the download package.</li>
+</ul>
+
+<h2 id="support">9. Support</h2>
+<p>Questions: use the item's comments on ThemeForest or the support email in your purchase receipt. Please include your WordPress and plugin versions.</p>
+</div></body></html>
